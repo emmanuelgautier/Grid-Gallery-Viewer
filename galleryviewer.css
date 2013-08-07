@@ -1,0 +1,175 @@
+.gg-grid {
+	list-style: none;
+	padding: 20px 0;
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+}
+
+.gg-grid li {
+	display: inline-block;
+	margin: 10px 5px 0 5px;
+	vertical-align: top;
+	height: 100px;
+}
+
+.gg-grid li > img {
+	border: none;
+	outline: none;
+	display: block;
+	opacity: 0.7;
+	position: relative;
+}
+
+.gg-grid li > img:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
+.gg-grid li.gg-expanded > a::after {
+	top: auto;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	border-bottom-color: #ddd;
+	border-width: 15px;
+	left: 50%;
+	margin: -20px 0 0 -15px;
+}
+
+.gg-expander {
+	position: absolute;
+	background: #e8E7E7;
+	top: auto;
+	left: 0;
+	width: 100%;
+	margin-top: 10px;
+	text-align: left;
+	height: 0;
+	overflow: hidden;
+}
+
+.gg-expander-inner {
+	padding: 50px 30px;
+	height: 100%;
+}
+
+.gg-close {
+	position: absolute;
+	width: 45px;
+	height: 30px;
+	background: #C6C5C5;
+	top: 0px;
+	right: 0px;
+	cursor: pointer;
+}
+
+.gg-close:hover {
+	background: #e12626;
+}
+
+.gg-close::before,
+.gg-close::after {
+	content: '';
+	position: absolute;
+	width: 50%;
+	top: 45%;
+	left: 25%;
+	height: 3px;
+	background: #e12626;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.gg-close::after {
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+.gg-close:hover::before,
+.gg-close:hover::after {
+	background: #e8E7E7;
+}
+
+.gg-fullimg,
+.gg-details {
+	width: 50%;
+	float: left;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+.gg-details {
+	padding: 0 40px 0 20px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.gg-fullimg {
+	text-align: center;
+}
+
+.gg-fullimg img {
+	display: inline-block;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.gg-details h3 {
+	font-weight: 300;
+	font-size: 52px;
+	padding: 40px 0 10px;
+	margin-bottom: 10px;
+}
+
+.gg-details p {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 22px;
+	color: #999;
+}
+
+.gg-details a {
+	font-weight: 700;
+	font-size: 16px;
+	color: #333;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	padding: 10px 20px;
+	border: 3px solid #333;
+	display: inline-block;
+	margin: 30px 0 0;
+	outline: none;
+}
+
+.gg-details a::before {
+	content: '\2192';
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.gg-details a:hover {
+	border-color: #999;
+	color: #999;
+}
+
+@media screen and (max-width: 830px) {
+
+	.gg-expander h3 { font-size: 32px; }
+	.gg-expander p { font-size: 13px; }
+	.gg-expander a { font-size: 12px; }
+
+}
+
+@media screen and (max-width: 650px) {
+
+	.gg-fullimg { display: none; }
+	.gg-details { float: none; width: 100%; }
+	
+}
