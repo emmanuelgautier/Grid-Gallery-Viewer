@@ -1,3 +1,9 @@
+/*
+ * Version 0.1
+ * Copyright (c) 2013 Emmanuel Gautier
+ * Released under the MIT license
+*/
+
 (function($, window){
     'use strict';
 
