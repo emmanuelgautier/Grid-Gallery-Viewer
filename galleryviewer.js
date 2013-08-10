@@ -9,6 +9,8 @@
 
     var gallery,
 
+    item = [],
+
     itemOpened = null,
 
     speedTransitionOpening = 15,
@@ -16,24 +18,31 @@
     speedTransitionClosing = 5,
 
     init = function(){
+        var later = function(o, fn){
+            var i = o;
+            fn(i);
+        };
+        
         gallery = $(".gridgallery");
         if(gallery.length === 0){
             throw new Error("You have not a gallery block");
         }
 
-       $(".gridgallery img").on('click', function(){
-           var $item = $(this),
+        item = $(".gridgallery img");
 
-           $parent = $item.parent(),
-
-           data = getData($item);
-
-           showItem($parent, data);
-       });
+        for(var i = 0; i < item.length; i += 1){
+            later(i, function(i){
+                $(item[i]).click(function(){
+                    openItem(i);
+                });
+            });
+        }
     },
 
-    getData = function($image){
-        var data = {};
+    getData = function(image){
+        var data = {},
+        
+        $image = $(image);
 
         data.title       = $image.data('title');
         data.src         = $image.data('src');
@@ -44,17 +53,17 @@
     },
 
     isItemOpened = function(){
-        return(itemOpened !== null);
+        return (itemOpened !== null) ? itemOpened : false;
     },
 
     openItem = function(i){
-        if(isItemOpened){
-            return replaceItem(i);
+        if(isItemOpened()){
+            replaceItem(i);
         }
 
         var $item = $(".gridgallery li")[i],
 
-        data = getData($item.children('img'));
+        data = getData(item[i]);
 
         showItem($item, data);
 
@@ -62,21 +71,21 @@
     },
 
     closeItem = function(){
-        hideItem($(".gg-expander"));
+        hideItem($(".gg-expander").parent());
 
         itemOpened = null;
     },
 
     replaceItem = function(i){
-
+        
     },
 
-    animateOpening = function(object, parent){
-        $(parent).append(object);
+    animateOpening = function(object, $parent){
+        $parent.append(object);
 
-        var height_parent = $(parent).height(),
+        var height_parent = $parent.height(),
 
-        $object = $(parent).children(".gg-expander"),
+        $object = $parent.children(".gg-expander"),
 
         height = 0,
 
@@ -84,12 +93,12 @@
             height += 4;
 
             $object.css('height', height + '%');
-            $(parent).height(height_parent + $object.height());
+            $parent.height(height_parent + $object.height());
 
             scrollTo(0, $object.offset().top);
 
             if(height === 100){
-                $(parent).height($(parent).height() + 25);
+                $parent.height($parent.height() + 25);
 
                 clearInterval(timer);
             }
@@ -112,7 +121,7 @@
                 scrollTo(0, $parent.offset.top);
 
                 clearInterval(timer);
-            } 
+            }
         }, speedTransitionClosing);
     },
 
@@ -123,9 +132,11 @@
             .replace("{{ description }}", data.description)
             .replace("{{ href }}", data.href);
 
+        $parent = $($parent);
+
         animateOpening(object, $parent);
 
-        $parent.on('click', '.gg-close', function(){ hideItem($parent); });
+        $parent.on('click', '.gg-close', function(){ closeItem(); });
     },
 
     hideItem = function($parent){
