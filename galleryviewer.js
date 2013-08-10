@@ -41,7 +41,7 @@
 
     getData = function(image){
         var data = {},
-        
+
         $image = $(image);
 
         data.title       = $image.data('title');
@@ -52,13 +52,21 @@
         return data;
     },
 
+    getObject = function(data){
+        return ('<div class="gg-expander"><div class="gg-expander-inner"><span class="gg-close"></span><div class="gg-fullimg"><img src="{{ src }}" style="display: inline;"></div><div class="gg-details"><h3>{{ title }}</h3><p>{{ description }}</p><a href="{{ href }}">Visit website</a></div></div></div>')
+            .replace("{{ title }}", data.title)
+            .replace("{{ src }}", data.src)
+            .replace("{{ description }}", data.description)
+            .replace("{{ href }}", data.href);        
+    },
+
     isItemOpened = function(){
-        return (itemOpened !== null) ? itemOpened : false;
+        return (itemOpened !== null ? itemOpened : false);
     },
 
     openItem = function(i){
-        if(isItemOpened()){
-            replaceItem(i);
+        if(isItemOpened() !== false){
+            return replaceItem(i);
         }
 
         var $item = $(".gridgallery li")[i],
@@ -77,7 +85,14 @@
     },
 
     replaceItem = function(i){
-        
+        scrollTo(0, $(".gg-expander").parent().offset().top);
+
+        $(".gg-expander").parent().height(100);
+        $(".gg-expander").remove();
+
+        itemOpened = null;
+
+        openItem(i);
     },
 
     animateOpening = function(object, $parent){
@@ -126,11 +141,7 @@
     },
 
     showItem = function($parent, data){
-        var object = ('<div class="gg-expander"><div class="gg-expander-inner"><span class="gg-close"></span><div class="gg-fullimg"><img src="{{ src }}" style="display: inline;"></div><div class="gg-details"><h3>{{ title }}</h3><p>{{ description }}</p><a href="{{ href }}">Visit website</a></div></div></div>')
-            .replace("{{ title }}", data.title)
-            .replace("{{ src }}", data.src)
-            .replace("{{ description }}", data.description)
-            .replace("{{ href }}", data.href);
+        var object = getObject(data),
 
         $parent = $($parent);
 
