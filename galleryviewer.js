@@ -17,13 +17,24 @@
 
     speedTransitionClosing = 5,
 
+    array_search = function( s, arr ){
+        for(var i = 0, l = arr.length; i < l; i += 1){
+            if(s === arr[i]){
+                return i;
+            }
+        }
+
+        return -1;
+    },
+
     init = function(){
-        var later = function(o, fn){
+        var later = function( o, fn ){
             var i = o;
             fn(i);
         };
-        
+
         gallery = $(".gridgallery");
+        
         if(gallery.length === 0){
             throw new Error("You have not a gallery block");
         }
@@ -39,7 +50,7 @@
         }
     },
 
-    getData = function(image){
+    getData = function( image ){
         var data = {},
 
         $image = $(image);
@@ -52,7 +63,7 @@
         return data;
     },
 
-    getObject = function(data){
+    getObject = function( data ){
         return ('<div class="gg-expander"><div class="gg-expander-inner"><span class="gg-close"></span><div class="gg-fullimg"><img src="{{ src }}" style="display: inline;"></div><div class="gg-details"><h3>{{ title }}</h3><p>{{ description }}</p><a href="{{ href }}">Visit website</a></div></div></div>')
             .replace("{{ title }}", data.title)
             .replace("{{ src }}", data.src)
@@ -65,6 +76,7 @@
     },
 
     openItem = function(i){
+        console.log(i);
         if(isItemOpened() !== false){
             return replaceItem(i);
         }
@@ -84,7 +96,7 @@
         itemOpened = null;
     },
 
-    replaceItem = function(i){
+    replaceItem = function( i ){
         scrollTo(0, $(".gg-expander").parent().offset().top);
 
         $(".gg-expander").parent().height(100);
@@ -95,7 +107,7 @@
         openItem(i);
     },
 
-    animateOpening = function(object, $parent){
+    animateOpening = function( object, $parent ){
         $parent.append(object);
 
         var height_parent = $parent.height(),
@@ -120,7 +132,7 @@
         }, speedTransitionOpening);
     },
 
-    animateClosing = function($object, $parent){
+    animateClosing = function( $object, $parent ){
         var height = $object.height(),
 
         timer = setInterval(function(){
@@ -140,7 +152,7 @@
         }, speedTransitionClosing);
     },
 
-    showItem = function($parent, data){
+    showItem = function( $parent, data ){
         var object = getObject(data),
 
         $parent = $($parent);
@@ -150,39 +162,64 @@
         $parent.on('click', '.gg-close', function(){ closeItem(); });
     },
 
-    hideItem = function($parent){
+    hideItem = function( $parent ){
         var $object = $parent.children('.gg-expander');
 
         animateClosing($object, $parent);
     },
 
-    orderbyDate = function(){
+    orderByDate = function(){
+        
+    },
+
+    orderByPriority = function(){
+
+    },
+    
+    orderByCategory = function(){
 
     },
 
-    orderbyPriority = function(){
+    orderByName = function(){
+        var img = $(".gg-grid img"),
+        
+        li = $(".gg-grid li"),
 
+        name = [], name_order = [],
+
+        i, j, l = img.length;
+        for(i = 0; i < l; i += 1){
+            name.push($(img[i]).data('title'));
+            name_order.push($(img[i]).data('title'));
+        };
+
+        name_order.sort();
+
+        for( i = 0; i < l; i += 1){
+            j = array_search( name[i], name_order );
+            $(li[j]).empty();
+            $(li[j]).append(img[i]);
+        }
+
+        init();
     },
 
-    orderbyName = function(){
-
-    },
-
-    orderby = function(order){
+    orderby = function( order ){
         if(order === "date"){
-            orderbyDate();
+            orderByDate();
         } else if(order === "priority"){
-            orderbyPriority();
+            orderByPriority();
         } else if(order === "name"){
-            orderbyName();
+            orderByName();
         }
     };
 
-    $(document).ready(init);
-
-    $.fn.galleryviewer = {
+    $.galleryviewer = {
         orderby: orderby,
+        orderByName: orderByName,
         isItemOpened: isItemOpened,
         closeItem: closeItem
     };
+
+    $(document).ready(init);
 }(jQuery, window));
