@@ -67,7 +67,6 @@
     },
 
     openItem = function(i){
-        console.log(i);
         if(isItemOpened() !== false){
             return replaceItem(i);
         }
@@ -77,6 +76,8 @@
         data = getData(item[i]);
 
         showItem($item, data);
+
+        $("body").css("overflow", "hidden");
 
         itemOpened = i;
     },
