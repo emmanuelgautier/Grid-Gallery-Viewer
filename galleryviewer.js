@@ -9,7 +9,7 @@
 
     var gallery,
 
-    item = [],
+    item = {},
 
     itemOpened = null,
 
@@ -28,13 +28,8 @@
     },
 
     init = function(){
-        var later = function( o, fn ){
-            var i = o;
-            fn(i);
-        };
-
         gallery = $(".gridgallery");
-        
+
         if(gallery.length === 0){
             throw new Error("You have not a gallery block");
         }
@@ -42,11 +37,7 @@
         item = $(".gridgallery img");
 
         for(var i = 0; i < item.length; i += 1){
-            later(i, function(i){
-                $(item[i]).click(function(){
-                    openItem(i);
-                });
-            });
+           $(item[i]).attr('onclick', '$.galleryviewer.openItem("' + i + '")');
         }
     },
 
@@ -197,11 +188,9 @@
 
         for( i = 0; i < l; i += 1){
             j = array_search( name[i], name_order );
-            $(li[j]).empty();
+            $(li[j]).children().remove();
             $(li[j]).append(img[i]);
         }
-
-        init();
     },
 
     orderby = function( order ){
@@ -218,6 +207,7 @@
         orderby: orderby,
         orderByName: orderByName,
         isItemOpened: isItemOpened,
+        openItem: openItem,
         closeItem: closeItem
     };
 
