@@ -13,9 +13,7 @@
 
     itemOpened = null,
 
-    speedTransitionOpening = 15,
-
-    speedTransitionClosing = 5,
+    speedTransition = 25,
 
     array_search = function( s, arr ){
         for(var i = 0, l = arr.length; i < l; i += 1){
@@ -55,7 +53,7 @@
     },
 
     getObject = function( data ){
-        return ('<div class="gg-expander"><div class="gg-expander-inner"><span class="gg-close"></span><div class="gg-fullimg"><img src="{{ src }}" style="display: inline;"></div><div class="gg-details"><h3>{{ title }}</h3><p>{{ description }}</p><a href="{{ href }}">Visit website</a></div></div></div>')
+        return ('<div class="gg-expander"><div class="gg-expander-inner"><span class="gg-close"></span><div class="gg-fullimg"><img src="{{ src }}" style="display: inline;"></div><div class="gg-details"><h3>{{ title }}</h3><p>{{ description }}</p><a href="{{ href }}">Visit website</a><span></span></div></div></div>')
             .replace("{{ title }}", data.title)
             .replace("{{ src }}", data.src)
             .replace("{{ description }}", data.description)
@@ -108,10 +106,17 @@
 
         height = 0,
 
-        timer = setInterval(function(){
-            height += 4;
+        width = 0;
+
+        $object.width(0);
+
+        var timer = setInterval(function(){
+            height += 10;
+            width += 10;
 
             $object.css('height', height + '%');
+            $object.css('width', width + '%');
+
             $parent.height(height_parent + $object.height());
 
             scrollTo(0, $object.offset().top);
@@ -121,19 +126,24 @@
 
                 clearInterval(timer);
             }
-        }, speedTransitionOpening);
+        }, speedTransition);
     },
 
     animateClosing = function( $object, $parent ){
-        var height = $object.height(),
+        var height = 100,
+
+        width = 100,
 
         timer = setInterval(function(){
             height -= 10;
+            width -= 10;
 
-            $object.height(height);
+            $object.css( 'height', height + '%');
+            $object.css( 'width', width + '%');
+
             $parent.height($parent.height() - 25);
 
-            if(height <= 10){
+            if(height === 10){
                 $parent.height('100px');
                 $object.remove();
 
@@ -141,7 +151,7 @@
 
                 clearInterval(timer);
             }
-        }, speedTransitionClosing);
+        }, speedTransition);
     },
 
     showItem = function( $parent, data ){
