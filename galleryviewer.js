@@ -14,6 +14,8 @@
     itemOpened = null,
 
     speedTransition = 25,
+    
+    social = {},
 
     array_search = function( s, arr ){
         for(var i = 0, l = arr.length; i < l; i += 1){
@@ -29,7 +31,7 @@
         gallery = $(".gridgallery");
 
         if(gallery.length === 0){
-            throw new Error("You have not a gallery block");
+            throw new Error("No gallery block");
         }
 
         item = $(".gridgallery img");
@@ -37,6 +39,10 @@
         for(var i = 0; i < item.length; i += 1){
            $(item[i]).attr('onclick', '$.galleryviewer.openItem("' + i + '")');
         }
+    },
+    
+    social = function( config ){
+        this.social = config || {};
     },
 
     getData = function( image ){
@@ -170,8 +176,12 @@
         animateClosing($object, $parent);
     },
 
-    orderByDate = function(){
+    getSocialBar = function(){
         
+    },
+
+    orderByDate = function(){
+
     },
 
     orderByPriority = function(){
@@ -215,6 +225,7 @@
     };
 
     $.galleryviewer = {
+        social: social,
         orderby: orderby,
         orderByName: orderByName,
         isItemOpened: isItemOpened,
@@ -222,5 +233,5 @@
         closeItem: closeItem
     };
 
-    $(document).ready(init);
+    $(document).ready( init );
 }(jQuery, window));
