@@ -59,12 +59,12 @@
     },
 
     getObject = function( data ){
-        return ('<div class="gg-expander"><div class="gg-expander-inner"><span class="gg-close"></span><div class="gg-fullimg"><img src="{{ src }}" style="display: inline;"></div><div class="gg-details"><h3>{{ title }}</h3><p>{{ description }}</p><a href="{{ href }}">Visit website</a><span></span></div><div class="social">{{ social }}</div></div></div>')
+        return ('<div class="gg-expander"><div class="gg-expander-inner"><span class="gg-close"></span><div class="gg-fullimg"><img src="{{ src }}" style="display: inline;"></div><div class="gg-details"><h3>{{ title }}</h3><p>{{ description }}</p><a href="{{ href }}">Visit website</a><span></span><div class="gg-social">{{ social }}</div></div><div class="gg-social">{{ social }}</div></div></div>')
             .replace("{{ title }}", data.title)
             .replace("{{ src }}", data.src)
             .replace("{{ description }}", data.description)
-            .replace("{{ href }}", data.href);
-            //.replace("{{ social }}", getSocialObject( data.href ));
+            .replace("{{ href }}", data.href)
+            .replace("{{ social }}", getSocialObject( data.href ));
     },
 
     isItemOpened = function(){
@@ -178,11 +178,11 @@
     },
 
     getSocialObject = function( href ){
-        var fb = '<div id="fb-root"></div><div class="fb-like" data-href="{{ href }}" data-width="450" data-layout="button_count" data-show-faces="true" data-send="false"></div>"></div><script>(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/all.js#xfbml=1";fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script>';
+        var fb = '<div id="fb-root"></div><div class="fb-like" data-href="{{ href }}" data-width="450" data-layout="button_count" data-show-faces="true" data-send="false"></div><script>(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/all.js#xfbml=1";fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script>',
     
-        var plus = '';
+        plus = '',
 
-        var twitter = '';
+        twitter = '';
 
         return (fb + plus + twitter).replace('{{ href }}', href);
     },

@@ -159,6 +159,11 @@
 	color: #999;
 }
 
+.gg-details .gg-social {
+	margin: 10px 0;
+	padding: 10px 20px;
+}
+
 @media screen and (max-width: 830px) {
 
 	.gg-expander h3 { font-size: 32px; }
